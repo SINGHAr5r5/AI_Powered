@@ -251,7 +251,7 @@
     // เรียกผ่าน Cloudflare Worker ที่เป็นตัวกลาง — Worker เป็นคนถือ Gemini API key
     // ไว้ฝั่งเซิร์ฟเวอร์ (secret) หน้าเว็บนี้จึงไม่ต้องรู้จัก key เลย
     // แก้ URL นี้เป็น URL ของ Worker ที่ deploy จริงหลัง `npx wrangler deploy`
-    const WORKER_URL = "https://ai-powered-market-research-proxy.YOUR-SUBDOMAIN.workers.dev";
+    const WORKER_URL = "https://ai-powered-market-research-proxy.singhar5r5.workers.dev";
 
     async function fetchAiAnalysis(productName) {
         const response = await fetch(WORKER_URL, {
