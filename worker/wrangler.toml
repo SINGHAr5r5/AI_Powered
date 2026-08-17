@@ -1,0 +1,6 @@
+name = "ai-powered-market-research-proxy"
+main = "index.js"
+compatibility_date = "2026-08-01"
+
+# ตั้ง secret ด้วยคำสั่ง (ห้ามใส่ key ตรงนี้):
+#   npx wrangler secret put GEMINI_API_KEY
