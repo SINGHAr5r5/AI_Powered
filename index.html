@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Research Framework™ - AI Powered</title>
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & BASE STYLES
+           ========================================================================== */
+        :root {
+            --bg: #f5f6fb;
+            --card: #ffffff;
+            --ink: #182033;
+            --muted: #687386;
+            --line: #e4e7ef;
+            --primary: #5b55d6;
+            --primary2: #7b43d8;
+            --soft: #f0efff;
+            --orange: #bd7415;
+            --red: #dc3545;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .wrap { max-width: 1100px; margin: auto; }
+
+        /* ==========================================================================
+           2. HEADER & INPUT SECTION
+           ========================================================================== */
+        .top {
+            background: linear-gradient(135deg, #5051c9, #7a42d4);
+            color: #ffffff;
+            padding: 30px 20px 24px;
+        }
+
+        .brand { font-size: 25px; font-weight: 850; }
+        .subtitle { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+        .api-config {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+
+        .api-config input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 0;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .api-hint {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        .api-hint a { color: #ffffff; }
+
+        .search {
+            display: flex;
+            gap: 9px;
+            background: #ffffff;
+            padding: 9px;
+            border-radius: 15px;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.13);
+        }
+
+        .search input {
+            flex: 1;
+            border: 0;
+            outline: 0;
+            padding: 12px 14px;
+            font: inherit;
+            font-size: 16px;
+            color: var(--ink);
+        }
+
+        .search button {
+            border: 0;
+            background: #171827;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search button:hover { background: #2c2d42; }
+        .search button:disabled { background: #8a91a3; cursor: not-allowed; }
+
+        /* ==========================================================================
+           3. MAIN CONTENT & COMPONENTS
+           ========================================================================== */
+        main { padding: 24px 20px; }
+
+        .market-title { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+
+        .loading-status {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 16px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .section {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            margin-bottom: 16px;
+            padding: 22px;
+            box-shadow: 0 3px 15px rgba(37, 42, 70, 0.06);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .num {
+            min-width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--soft);
+            color: #5048b4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        h2 { margin: 0; font-size: 19px; }
+        .desc { color: var(--muted); font-size: 13px; line-height: 1.7; }
+        ul { margin: 7px 0 0; padding-left: 21px; line-height: 1.85; font-size: 13px; }
+
+        .analysis {
+            background: #fafaff;
+            border: 1px solid #e5e3f8;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .analysis b { color: #4940a6; }
+
+        .box {
+            background: #fbfbfd;
+            border-left: 4px solid var(--primary);
+            padding: 12px 14px;
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.8;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .mini {
+            background: #fafafa;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 13px;
+        }
+
+        .mini b { display: block; margin-bottom: 4px; }
+
+        .actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0; }
+
+        .btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-weight: 750;
+            cursor: pointer;
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn.secondary { background: #e9ebf2; color: #30374a; }
+
+        .empty {
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 55px 25px;
+        }
+
+        .empty.error { border-color: #f3c7cc; background: #fff7f7; }
+        .empty h2 { margin-bottom: 8px; }
+        .empty p { color: var(--muted); font-size: 14px; }
+        .footer { text-align: center; color: #8a91a3; font-size: 11px; padding: 12px 20px 28px; }
+
+        @media (max-width: 700px) {
+            .search { flex-direction: column; }
+            .search button { padding: 12px; }
+            .grid { grid-template-columns: 1fr; }
+            .section { padding: 17px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="top">
+    <div class="wrap">
+        <div class="brand">Market Research Framework™</div>
+        <div class="subtitle">Winning Opportunity System (AI Powered)</div>
+
+        <!-- ช่องใส่ API Key สำหรับการใช้งาน -->
+        <div class="api-config">
+            <input type="password" id="apiKeyInput" placeholder="กรอก Gemini API Key ของคุณที่นี่ (AIzaSy...)">
+            <div class="api-hint">Key ของคุณจะถูกใช้ในเบราว์เซอร์นี้เท่านั้น ไม่ถูกส่งไปเก็บที่เซิร์ฟเวอร์ใด ๆ · ขอ Key ได้ที่ Google AI Studio</div>
+        </div>
+
+        <div class="search">
+            <input id="productInput" placeholder="กรอกชื่อสินค้า เช่น เครื่องให้อาหารแมวอัตโนมัติ">
+            <button id="searchBtn" onclick="startAiAnalysis()">วิเคราะห์ตลาดด้วย AI →</button>
+        </div>
+    </div>
+</header>
+
+<main class="wrap">
+    <div id="appContainer">
+        <div class="empty">
+            <h2>กรอกชื่อสินค้าและใส่ API Key เพื่อเริ่มวิเคราะห์</h2>
+            <p>ระบบจะส่งข้อมูลไปยัง Gemini AI เพื่อวิเคราะห์ตลาดจริงตามโครงสร้าง Framework</p>
+        </div>
+    </div>
+</main>
+
+<div class="footer">Market Research Framework™ - AI Integration</div>
+
+<script>
+    // Global variable สำหรับเก็บข้อความรายงาน (ใช้ตอนกดคัดลอก)
+    let currentReportText = "";
+
+    // ==========================================================================
+    // 1. HELPER FUNCTIONS
+    // ==========================================================================
+    function escapeHtml(str) {
+        return String(str || "").replace(/[&<>"']/g, m => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+        }[m]));
+    }
+
+    const FRAMEWORK_SECTIONS = [
+        { key: "opportunity", title: "1. Opportunity Universe™" },
+        { key: "learning",    title: "2. Learning Curve™" },
+        { key: "trading",     title: "3. Trading Zone™" },
+        { key: "insight",     title: "4. Insight Vault™" },
+        { key: "rare",        title: "5. Rare Edge™" },
+        { key: "networking",  title: "6. Networking Layer™" },
+        { key: "platform",    title: "7. Platform Play™" }
+    ];
+
+    // ==========================================================================
+    // 2. AI API INTEGRATION LOGIC
+    // ==========================================================================
+    async function fetchAiAnalysis(productName, apiKey) {
+        // ใช้ Gemini 2.5 Flash Model
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+        // Prompt วิเคราะห์ตลาดที่บังคับให้ AI คืนค่ากลับมาเป็น JSON ตามโครงสร้างที่เราต้องการ
+        const promptText = `
+วิเคราะห์ตลาดสำหรับสินค้า: "${productName}"
+โปรดวิเคราะห์โดยใช้หลักการ Market Research Framework™ และส่งผลลัพธ์กลับมาเป็น JSON Object โครงสร้างดังนี้เท่านั้น (ไม่ต้องใส่ Markdown Fences เช่น \`\`\`json):
+
+{
+  "currentPhase": "ระบุชื่อช่วง เช่น 2. Growth Opportunity™",
+  "nextPhase": "ระบุชื่อช่วงถัดไป",
+  "opportunity": "วิเคราะห์โอกาสทางธุรกิจสั้นๆ 2-3 บรรทัด",
+  "risk": "วิเคราะห์ความเสี่ยงสั้นๆ 2-3 บรรทัด",
+  "strategy": "เสนอแนะกลยุทธ์สั้นๆ 2-3 บรรทัด",
+  "framework": {
+    "opportunity": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "learning": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "trading": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "insight": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "rare": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "networking": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"],
+    "platform": ["ประเด็นที่ 1", "ประเด็นที่ 2", "ประเด็นที่ 3"]
+  },
+  "moneyFlow": ["เงินมาจากไหน...", "เงินไหลไปหาใคร...", "ใครสร้างกำไรสูงสุด..."]
+}
+        `;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: promptText }] }],
+                generationConfig: { responseMimeType: "application/json" }
+            })
+        });
+
+        if (!response.ok) {
+            let detail = "";
+            try {
+                const errBody = await response.json();
+                if (errBody && errBody.error && errBody.error.message) {
+                    detail = ` - ${errBody.error.message}`;
+                }
+            } catch (e) {
+                // ไม่สามารถอ่าน error body ได้ ใช้ข้อความ default ต่อไป
+            }
+            throw new Error(`API Error: ${response.status}${detail} (โปรดตรวจสอบ API Key ของคุณ)`);
+        }
+
+        const data = await response.json();
+        const candidate = data.candidates && data.candidates[0];
+        if (!candidate || !candidate.content) {
+            const blockReason = data.promptFeedback && data.promptFeedback.blockReason;
+            throw new Error(blockReason
+                ? `คำขอถูกบล็อกโดย Safety Filter (${blockReason})`
+                : "AI ไม่ส่งข้อมูลกลับมา โปรดลองใหม่อีกครั้ง");
+        }
+
+        const rawText = candidate.content.parts[0].text;
+
+        // คลีนตัวอักษรส่วนเกินและแปลงเป็น JSON
+        const cleanJsonText = rawText.replace(/```json|```/g, "").trim();
+        try {
+            return JSON.parse(cleanJsonText);
+        } catch (e) {
+            throw new Error("AI ตอบกลับมาในรูปแบบที่อ่านไม่ได้ โปรดลองวิเคราะห์อีกครั้ง");
+        }
+    }
+
+    // ==========================================================================
+    // 3. UI CONTROLLER
+    // ==========================================================================
+    function setLoading(isLoading) {
+        const btn = document.getElementById("searchBtn");
+        btn.disabled = isLoading;
+        btn.textContent = isLoading ? "กำลังวิเคราะห์..." : "วิเคราะห์ตลาดด้วย AI →";
+    }
+
+    async function startAiAnalysis() {
+        const productName = document.getElementById("productInput").value.trim();
+        const apiKey = document.getElementById("apiKeyInput").value.trim();
+        const container = document.getElementById("appContainer");
+
+        if (!productName) {
+            alert("กรุณากรอกชื่อสินค้าก่อนเริ่มวิเคราะห์");
+            return;
+        }
+        if (!apiKey) {
+            alert("กรุณากรอก Gemini API Key ก่อนเริ่มวิเคราะห์");
+            return;
+        }
+
+        setLoading(true);
+        container.innerHTML = `
+            <div class="loading-status">
+                🔎 AI กำลังวิเคราะห์ตลาดสำหรับ "${escapeHtml(productName)}" ...<br>
+                <span style="font-size:12px; color:var(--muted); font-weight:400;">อาจใช้เวลาสักครู่</span>
+            </div>
+        `;
+
+        try {
+            const data = await fetchAiAnalysis(productName, apiKey);
+            renderReport(productName, data);
+        } catch (err) {
+            container.innerHTML = `
+                <div class="empty error">
+                    <h2>เกิดข้อผิดพลาด</h2>
+                    <p>${escapeHtml(err.message)}</p>
+                </div>
+            `;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    function listItems(arr) {
+        return (arr || []).map(item => `<li>${escapeHtml(item)}</li>`).join("");
+    }
+
+    function renderReport(productName, data) {
+        const container = document.getElementById("appContainer");
+        const fw = data.framework || {};
+
+        const sectionsHtml = FRAMEWORK_SECTIONS.map(s => `
+            <div class="section">
+                <div class="section-head">
+                    <div>
+                        <h2>${s.title}</h2>
+                    </div>
+                </div>
+                <ul>${listItems(fw[s.key])}</ul>
+            </div>
+        `).join("");
+
+        container.innerHTML = `
+            <div class="market-title">ผลวิเคราะห์ตลาด: ${escapeHtml(productName)}</div>
+            <div class="box">
+                <b>ช่วงตลาดปัจจุบัน:</b> ${escapeHtml(data.currentPhase)}<br>
+                <b>ช่วงถัดไป:</b> ${escapeHtml(data.nextPhase)}
+            </div>
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="num">AI</div>
+                    <div><h2>บทวิเคราะห์โดยรวม</h2></div>
+                </div>
+                <div class="analysis"><b>โอกาส:</b> ${escapeHtml(data.opportunity)}</div>
+                <div class="analysis"><b>ความเสี่ยง:</b> ${escapeHtml(data.risk)}</div>
+                <div class="analysis"><b>กลยุทธ์แนะนำ:</b> ${escapeHtml(data.strategy)}</div>
+            </div>
+
+            ${sectionsHtml}
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="num">$</div>
+                    <div><h2>Money Flow</h2></div>
+                </div>
+                <ul>${listItems(data.moneyFlow)}</ul>
+            </div>
+
+            <div class="actions">
+                <button class="btn" onclick="copyReport()">คัดลอกรายงาน</button>
+                <button class="btn secondary" onclick="resetApp()">วิเคราะห์สินค้าอื่น</button>
+            </div>
+        `;
+
+        currentReportText = buildReportText(productName, data);
+    }
+
+    function buildReportText(productName, data) {
+        const fw = data.framework || {};
+        let text = `Market Research Framework™ - ${productName}\n\n`;
+        text += `ช่วงตลาดปัจจุบัน: ${data.currentPhase}\nช่วงถัดไป: ${data.nextPhase}\n\n`;
+        text += `โอกาส: ${data.opportunity}\nความเสี่ยง: ${data.risk}\nกลยุทธ์: ${data.strategy}\n\n`;
+        FRAMEWORK_SECTIONS.forEach(s => {
+            text += `${s.title}\n`;
+            (fw[s.key] || []).forEach(item => { text += `- ${item}\n`; });
+            text += `\n`;
+        });
+        text += `Money Flow\n`;
+        (data.moneyFlow || []).forEach(item => { text += `- ${item}\n`; });
+        return text;
+    }
+
+    function copyReport() {
+        navigator.clipboard.writeText(currentReportText).then(() => {
+            alert("คัดลอกรายงานแล้ว");
+        }).catch(() => {
+            alert("ไม่สามารถคัดลอกได้ โปรดลองอีกครั้ง");
+        });
+    }
+
+    function resetApp() {
+        document.getElementById("productInput").value = "";
+        document.getElementById("appContainer").innerHTML = `
+            <div class="empty">
+                <h2>กรอกชื่อสินค้าและใส่ API Key เพื่อเริ่มวิเคราะห์</h2>
+                <p>ระบบจะส่งข้อมูลไปยัง Gemini AI เพื่อวิเคราะห์ตลาดจริงตามโครงสร้าง Framework</p>
+            </div>
+        `;
+        document.getElementById("productInput").focus();
+    }
+
+    // กด Enter ในช่องชื่อสินค้าเพื่อเริ่มวิเคราะห์ได้เลย
+    document.getElementById("productInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") startAiAnalysis();
+    });
+</script>
+
+</body>
+</html>
